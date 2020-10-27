@@ -11,12 +11,16 @@
     <groupId>com.santu.leaves</groupId>
     <artifactId>xa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!--默认为jar包-->
+<!--    <packaging>war</packaging>-->
     <name>xa</name>
-    <description>Demo project for Spring Boot</description>
+    <description>RBAC</description>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -24,20 +28,130 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+<!--            <scope>provided</scope> 打成war包不能加这句-->
+<!--打成war包时去掉自带的tomcat-->
+<!--                        <exclusions>-->
+<!--                            <exclusion>-->
+<!--                                <groupId>org.springframework.boot</groupId>-->
+<!--                                <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                            </exclusion>-->
+<!--                        </exclusions>-->
+        </dependency>
+<!--打成war包时tomcat依赖和servlet依赖任选其一即可-->
+<!--添加tomcat依赖-->
+<!--                <dependency>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                  &lt;!&ndash;  <scope>compile</scope>&ndash;&gt;-->
+<!--                    <scope>provided</scope>-->
+<!--                </dependency>-->
+<!--Servlet依赖-->
+<!--                <dependency>-->
+<!--                    <groupId>javax.servlet</groupId>-->
+<!--                    <artifactId>javax.servlet-api</artifactId>-->
+<!--                    <version>3.1.0</version>-->
+<!--                    <scope>provided</scope>-->
+<!--                </dependency>-->
+        <!--redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--mybatis-->
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.3</version>
         </dependency>
 
+
+        <!--PostgreSQL-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <scope>9.4.1207</scope>
         </dependency>
+        <!--lombook-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!-- druid -->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.11</version>
+        </dependency>
+        <!-- Redis-Jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <!--shiro-redis-->
+        <!-- https://mvnrepository.com/artifact/org.crazycake/shiro-redis -->
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>3.2.3</version>
+        </dependency>
+        <!-- Shiro -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <!-- JWT -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <!--slf4j-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <!--上传下载文件-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!--添加通用mapper依赖-->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.1.5</version>
+        </dependency>
+        <!--添加分页依赖-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <!--工具库hutool库-->
+        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.4.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,6 +161,7 @@
     </dependencies>
 
     <build>
+        <finalName>xa</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
