@@ -1,2 +1,31 @@
 server:
   port: 8089
+spring:
+#  数据库连接配置
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:postgresql://localhost:5432/mxhn?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&socketTimeout=30000
+    username: postgres
+    password: 123456
+
+# 时间格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+#  允许运行main函数
+  main:
+    allow-bean-definition-overriding: true
+
+#mybatis
+mybatis:
+  type-aliases-package: com.santu.leaves.entity
+  mapper-locations: classpath*:/mapper/*.xml
+
+#日志配置
+logging:
+  level:
+    com.santu.leaves.mapper: debug
+  config: classpath:logback-spring.xml
+
