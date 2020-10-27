@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.santu.leaves.mapper.TUserMapper">
+  <resultMap id="BaseResultMap" type="com.santu.leaves.entity.TUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="roleid" jdbcType="BIGINT" property="roleid" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, "password", "name", roleid, age, icon, sex, phone, email, area
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "t_user"
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByusername" resultType="com.santu.leaves.entity.TUser">
+    select
+    <include refid="Base_Column_List" />
+    from "t_user"
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from "t_user"
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.santu.leaves.entity.TUser" useGeneratedKeys="true">
+    insert into "t_user" (username, "password", "name", 
+      roleid, age, icon, sex, 
+      phone, email, area)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{roleid,jdbcType=BIGINT}, #{age,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.santu.leaves.entity.TUser" useGeneratedKeys="true">
+    insert into "t_user"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        "password",
+      </if>
+      <if test="name != null">
+        "name",
+      </if>
+      <if test="roleid != null">
+        roleid,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null">
+        #{roleid,jdbcType=BIGINT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.santu.leaves.entity.TUser">
+    update "t_user"
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        "password" = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        "name" = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null">
+        roleid = #{roleid,jdbcType=BIGINT},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.santu.leaves.entity.TUser">
+    update "t_user"
+    set username = #{username,jdbcType=VARCHAR},
+      "password" = #{password,jdbcType=VARCHAR},
+      "name" = #{name,jdbcType=VARCHAR},
+      roleid = #{roleid,jdbcType=BIGINT},
+      age = #{age,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
