@@ -1,0 +1,49 @@
+server:
+  port: 8089
+spring:
+#  ���ݿ���������
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:postgresql://localhost:5432/xa?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&socketTimeout=30000
+    username: postgres
+    password: 123456
+
+# ʱ���ʽ��
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+#  ��������main����
+  main:
+    allow-bean-definition-overriding: true
+
+# redis����
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    timeout: 3000ms
+
+#   �ļ��ϴ�����
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+
+
+# mybatis
+mybatis:
+  type-aliases-package: com.santu.leaves.entity
+  mapper-locations: classpath*:/mapper/*.xml
+
+#��־����
+logging:
+  level:
+    com.santu.leaves.mapper: debug
+  config: classpath:logback-spring.xml
+

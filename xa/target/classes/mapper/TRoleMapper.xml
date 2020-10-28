@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.santu.leaves.mapper.TRoleMapper">
+  <resultMap id="BaseResultMap" type="com.santu.leaves.entity.TRole">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="auths" jdbcType="VARCHAR" property="auths" />
+    <result column="parentid" jdbcType="BIGINT" property="parentid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, "name", auths, parentid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "t_role"
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!--根据用户名查询用户权限-->
+  <select id="getPermissionByUserName" resultType="java.lang.String">
+    select r.auths from t_user u, t_role r where u.roleid = r.id and u.username = #{username}
+  </select>
+  <select id="selectAll" resultType="com.santu.leaves.entity.TRole">
+    select
+    <include refid="Base_Column_List" />
+    from "t_role"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from "t_role"
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.santu.leaves.entity.TRole" useGeneratedKeys="true">
+    insert into "t_role" (id, "name", auths, parentid)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{auths,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.santu.leaves.entity.TRole" useGeneratedKeys="true">
+    insert into "t_role"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        "name",
+      </if>
+      <if test="auths != null">
+        auths,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="auths != null">
+        #{auths,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.santu.leaves.entity.TRole">
+    update "t_role"
+    <set>
+      <if test="name != null">
+        "name" = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="auths != null">
+        auths = #{auths,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.santu.leaves.entity.TRole">
+    update "t_role"
+    set "name" = #{name,jdbcType=VARCHAR},
+      auths = #{auths,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
