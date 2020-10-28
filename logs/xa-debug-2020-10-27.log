@@ -1,0 +1,6 @@
+2020-10-27 17:52:36.851 [http-nio-8089-exec-1] DEBUG c.santu.leaves.mapper.TUserMapper.selectByusername - ==>  Preparing: select id, username, "password", "name", roleid, age, icon, sex, phone, email, area from "t_user" where username = ?
+2020-10-27 17:52:36.860 [http-nio-8089-exec-1] DEBUG c.santu.leaves.mapper.TUserMapper.selectByusername - ==> Parameters: leaves(String)
+2020-10-27 17:52:36.870 [http-nio-8089-exec-1] DEBUG c.santu.leaves.mapper.TUserMapper.selectByusername - <==      Total: 1
+2020-10-27 17:52:36.874 [http-nio-8089-exec-1] DEBUG c.s.leaves.mapper.TRoleMapper.selectByPrimaryKey - ==>  Preparing: select id, "name", auths, parentid from "t_role" where id = ?
+2020-10-27 17:52:36.874 [http-nio-8089-exec-1] DEBUG c.s.leaves.mapper.TRoleMapper.selectByPrimaryKey - ==> Parameters: 753646510034538375(Long)
+2020-10-27 17:52:36.876 [http-nio-8089-exec-1] DEBUG c.s.leaves.mapper.TRoleMapper.selectByPrimaryKey - <==      Total: 1

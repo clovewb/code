@@ -30,9 +30,10 @@
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>7736</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|18344|18346|1
-sequence|table|18817|18819|1
+      <Relations>sequence|table|18817|18819|1
 sequence|table|18835|18837|1
+sequence|table|18783|18785|1
+sequence|table|18800|18802|1
 sequence|table|18852|18854|1
 sequence|table|18863|18865|1
 sequence|table|18873|18875|1
@@ -42,11 +43,10 @@ sequence|table|18958|18960|1
 sequence|table|18990|18992|1
 sequence|table|19002|19004|1
 sequence|table|19014|19016|1
+sequence|table|18344|18346|1
 sequence|table|18720|18722|1
 sequence|table|18737|18739|1
 sequence|table|18756|18758|1
-sequence|table|18783|18785|1
-sequence|table|18800|18802|1
 </Relations>
     </database>
     <role id="8" parent="1" name="leaves">
