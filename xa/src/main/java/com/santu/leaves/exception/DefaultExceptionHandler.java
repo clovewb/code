@@ -49,28 +49,45 @@ public class DefaultExceptionHandler {
         return ResponseDataUtil.fail("对不起，您没有相关权限！");
     }
 
+//    @ExceptionHandler(UnauthenticatedException.class)
+//    @ResponseBody
+//    public ResponseData unauthenticatedException(UnauthenticatedException ex) {
+//        log.error(ex.getMessage(), ex);
+//        return ResponseDataUtil.fail("对不起，您未登录！");
+//    }
+
+
+
     @ExceptionHandler(AuthorizationException.class)
     @ResponseBody
     public ResponseData authorizationException(AuthorizationException ex) {
         log.error(ex.getMessage(), ex);
-        return ResponseDataUtil.fail("无效token,请重新登录！");
+        return ResponseDataUtil.fail("无效token，请重新登录！");
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseBody
+    public ResponseData nullPointerException(NullPointerException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseDataUtil.fail(500,"空指针异常！");
     }
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseBody
     public ResponseData authenticationException(AuthenticationException ex) {
         log.error(ex.getMessage(), ex);
-        return ResponseDataUtil.fail("请先重新登录！");
+        return ResponseDataUtil.fail("token为空，请重新登录！");
     }
 
     /**
      * 异常统一自定义处理
      */
-//    @ExceptionHandler({MyException.class})
-//    @ResponseBody
-//    public ResponseData MyException(MyException e) {
-//        return ResponseDataUtil.failure(500,e.getMessage());
-//    }
+    @ExceptionHandler({MyException.class})
+    @ResponseBody
+    public ResponseData MyException(MyException e) {
+        return ResponseDataUtil.fail(500,e.getMessage());
+    }
+
     /**
      * 异常统一处理(最后的异常处理)
      */

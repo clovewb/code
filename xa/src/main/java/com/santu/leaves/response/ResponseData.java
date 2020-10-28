@@ -23,13 +23,15 @@ public class ResponseData<T> {
     public String msg;
 
     /**
+     * token令牌
+     */
+    public String token;
+
+    /**
      * 结果对象
      */
     public T data;
 
-    /**
-     * token令牌
-     */
-    public String token;
+
 
 }

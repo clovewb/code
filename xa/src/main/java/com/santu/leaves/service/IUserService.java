@@ -19,4 +19,6 @@ public interface IUserService {
     ResponseData login(String username, String password, HttpServletResponse response);
 
     ResponseData logout(HttpServletRequest request);
+
+    ResponseData queryAll(HttpServletRequest request, HttpServletResponse response);
 }

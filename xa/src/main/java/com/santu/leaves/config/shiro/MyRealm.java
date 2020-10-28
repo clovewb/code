@@ -11,6 +11,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -56,10 +57,13 @@ public class MyRealm extends AuthorizingRealm {
      * @return
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) throws AuthorizationException {
         log.info("MyRealm==doGetAuthorizationInfo--->");
         //通过调用JwtUtil.getUsername()方法得到token中的username
         String username = JwtUtil.getUsername(principals.toString());
+        if (StrUtil.isBlank(username)){
+            throw new AuthorizationException("无效token,请重新登录！");
+        }
         //调用业务方法获取用户的角色
         Set<String> permissions = roleService.getPermissionByUserName(username);
         Set<String> permissionSet = new HashSet<>(permissions);
@@ -101,8 +105,9 @@ public class MyRealm extends AuthorizingRealm {
         String accessToken = (String) auth.getCredentials();
         // 帐号为空
         if (StrUtil.isBlank(token)) {
-            throw new AuthenticationException("token无效，未包含任何信息!");
+            throw new AuthenticationException("暂无token!");
         }
+       // token = token.substring(7);
         log.info("MyRealm==doGetAuthenticationInfo--->token = " + token);
         //判断token中是否包含用户信息
         String username = null;
@@ -118,7 +123,7 @@ public class MyRealm extends AuthorizingRealm {
         }
         if (username == null) {
             log.error("MyRealm==doGetAuthenticationInfo--->token无效(空''或者null都不行!)");
-            throw new AuthenticationException("认证失败，token无效,token中未包含用户信息！");
+            throw new AuthenticationException("认证失败，token无效或token中未包含用户信息！");
         }
         //根据用户信息查询数据库获取后端的用户身份，转交给securityManager判定
         //调用业务方法从数据库中获取用户信息
@@ -129,7 +134,7 @@ public class MyRealm extends AuthorizingRealm {
             throw new AuthenticationException("用户" + username + "不存在!");
         }
         //校验用户的token、username、password
-        if (!JwtUtil.verify(token, username)) {
+        if (!JwtUtil.verify(token, tUser.getUsername())) {
             log.error("MyRealm==doGetAuthenticationInfo--->用户名或密码错误(token无效或者与登录者不匹配)!)");
             throw new AuthenticationException("用户名错误(token无效或者与登录者不匹配)!");
         }

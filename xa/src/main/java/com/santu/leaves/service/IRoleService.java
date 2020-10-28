@@ -1,5 +1,9 @@
 package com.santu.leaves.service;
 
+import com.santu.leaves.response.ResponseData;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -11,5 +15,7 @@ import java.util.Set;
 public interface IRoleService {
 
     Set<String> getPermissionByUserName(String username);
+
+    ResponseData queryAll(HttpServletRequest request, HttpServletResponse response);
 
 }

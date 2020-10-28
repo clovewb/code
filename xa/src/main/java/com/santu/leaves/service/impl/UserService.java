@@ -1,6 +1,8 @@
 package com.santu.leaves.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.santu.leaves.common.utils.MD5Util;
+import com.santu.leaves.common.utils.TokenUtils;
 import com.santu.leaves.config.reids.JedisUtil;
 import com.santu.leaves.entity.TRole;
 import com.santu.leaves.entity.TUser;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @Author: LEAVES
@@ -46,6 +49,13 @@ public class UserService implements IUserService {
         return tUser;
     }
 
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @param response
+     * @return
+     */
     @Override
     public ResponseData login(String username, String password, HttpServletResponse response) {
         TUser tUser = userMapper.selectByusername(username);
@@ -73,15 +83,64 @@ public class UserService implements IUserService {
                 tUser.setPassword(dbpwd);
                 return ResponseDataUtil.success("登录成功", tUser, token);
             }else {
-                return ResponseDataUtil.fail("登录失败，密码错误！");
+                return ResponseDataUtil.fail("登录失败，用户名或密码错误！");
             }
 
         }
         return ResponseDataUtil.fail("登录失败，用户不存在！");
     }
 
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
     @Override
     public ResponseData logout(HttpServletRequest request) {
-        return null;
+        //用户退出逻辑
+        //获取token
+        String token = request.getHeader("Authorization");
+        //去掉token前缀
+        token = token.substring(7);
+        //token非空判断
+        if (StrUtil.isBlank(token)) {
+            return ResponseDataUtil.fail("无效的token！");
+        }
+        //获取token中的用户名
+        String username = JwtUtil.getUsername(token);
+        //判断该token的用户是否存在
+        TUser tUser = userMapper.selectByusername(username);
+        if (tUser != null) {
+            log.info(" 用户名: " + username + " 退出登录成功！ ");
+            if (JedisUtil.getJson(username) == null){
+                return ResponseDataUtil.fail("已经退出登录过了！");
+            }
+            //清空redis中用户Token缓存
+            Long aLong = JedisUtil.delKey(username);
+//            log.info("aLong = " + aLong);
+            return ResponseDataUtil.success("退出登录成功！");
+        } else {
+            return ResponseDataUtil.fail("token已失效，请重新登录！");
+        }
+    }
+
+    /**
+     * 查询全部用户
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public ResponseData queryAll(HttpServletRequest request, HttpServletResponse response) {
+        String token = TokenUtils.verifyrefreshToken(request, response);
+        if (StrUtil.isNotBlank(token)){
+            List<TUser> tUsers = userMapper.selectAll();
+            if (!tUsers.isEmpty()){
+                return ResponseDataUtil.success("查询成功！", tUsers, token);
+            }
+            return ResponseDataUtil.fail("查询失败，暂无用户信息！");
+        }
+        return ResponseDataUtil.fail("token已失效，请重新登录！");
+
     }
 }

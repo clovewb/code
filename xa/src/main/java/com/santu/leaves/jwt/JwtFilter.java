@@ -43,10 +43,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         log.info("JwtFilter==isLoginAttempt--->");
         HttpServletRequest req = (HttpServletRequest) request;
         String authorization = req.getHeader("Authorization");
-        //去掉token前缀
-        authorization = authorization.substring(7);
-        log.info("JwtFilter==isLoginAttempt--->authorization = " + authorization);
         if (authorization != null){
+            //去掉token前缀
+            authorization = authorization.substring(7);
+            log.info("JwtFilter==isLoginAttempt--->authorization = " + authorization);
             log.info("JwtFilter==isLoginAttempt--->用户已经登录过了");
             return authorization != null;
         }else{
@@ -72,6 +72,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         log.info("JwtFilter==executeLogin--->");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String authorization = httpServletRequest.getHeader("Authorization");
+        //去掉token前缀
+        authorization = authorization.substring(7);
         JwtToken token = new JwtToken(authorization);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         try {
@@ -80,8 +82,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             // 如果没有抛出异常则代表登入成功，返回true
             log.info("JwtFilter==executeLogin--->验证登入成功");
             return true;
-        } catch (AuthenticationException e) {
-            log.info("JwtFilter==executeLogin--->没有访问权限，原因是:" + e.getMessage());
+        } catch (Exception e) {
+            log.error("JwtFilter==executeLogin--->没有访问权限，原因是：" + e.getMessage());
+            //throw new AuthenticationException("无效token，请先登录！！！！" + e.getMessage());
             return false;
         }
     }
@@ -117,9 +120,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                     }
                 }
             } catch (Exception e) {
-                log.error("JwtFilter==isAccessAllowed--->Token失效,JwtFilter过滤验证失败!");
+                log.error("JwtFilter==isAccessAllowed--->Token已失效或为空,JwtFilter过滤验证失败!");
                 //response401(request, response);
-                throw new AuthenticationException("无效token，请先登录！");
+                throw new AuthenticationException("token为空，请重新登录！");
             }
         }
         //如果请求头不存在 token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true

@@ -21,9 +21,9 @@ import java.util.Map;
 @Slf4j
 public class JwtUtil {
 
-    //过期时间五分钟
-    private static final long EXPIRE_TIME = 5 * 60 *100;
-
+    //token过期时间
+    private static final long EXPIRE_TIME = 1000 * 60 * 50 * 6;
+    //redis中token过期时间
     public static final Integer REFRESH_EXPIRE_TIME = 1000 * 60 * 10 * 60 * 2;
 
     //token密钥(自定义)
@@ -68,14 +68,14 @@ public class JwtUtil {
             log.info("JwtUtil==getUsername--->username = "+jwt.getClaim("username").asString().toString());
             return jwt.getClaim("username").asString();
         } catch (JWTDecodeException e) {
-            log.info("JwtUtil==getUsername--->JWTDecodeException: " + e.getMessage());
+            log.error("JwtUtil==getUsername--->JWTDecodeException: " + e.getMessage());
             return null;
         }
     }
 
     /**
      * 生成token签名
-     * EXPIRE_TIME 5分钟后过期
+     * EXPIRE_TIME 分钟后过期
      * @param username 用户名
      * @return 加密的token
      */

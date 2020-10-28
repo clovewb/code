@@ -17,4 +17,6 @@ public class CustomException extends AuthenticationException {
     public CustomException() {
         super();
     }
+
+
 }

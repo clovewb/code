@@ -29,6 +29,11 @@
     from "t_user"
     where username = #{username,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll" resultType="com.santu.leaves.entity.TUser">
+    select
+    <include refid="Base_Column_List" />
+    from "t_user"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from "t_user"
     where id = #{id,jdbcType=BIGINT}

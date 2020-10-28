@@ -20,6 +20,11 @@
   <select id="getPermissionByUserName" resultType="java.lang.String">
     select r.auths from t_user u, t_role r where u.roleid = r.id and u.username = #{username}
   </select>
+  <select id="selectAll" resultType="com.santu.leaves.entity.TRole">
+    select
+    <include refid="Base_Column_List" />
+    from "t_role"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from "t_role"
     where id = #{id,jdbcType=BIGINT}
